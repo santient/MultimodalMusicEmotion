@@ -22,9 +22,9 @@ class UnimodalModel(nn.Module):
 
 def load_data(data_dir, val_split):
     meta = torch.load(os.path.join(data_dir, "meta.pt"))
-    opensmile = torch.load(os.path.join(data_dir, "opensmile.pt")).float()
-    opensmile = (opensmile - opensmile.mean(dim=0)) / opensmile.std(dim=0) # normalize
-    emotion = torch.load(os.path.join(data_dir, "emotion.pt")).float()
+    opensmile = torch.load(os.path.join(data_dir, "opensmile.pt"))
+    # opensmile = (opensmile - opensmile.mean(dim=0)) / opensmile.std(dim=0) # normalize
+    emotion = torch.load(os.path.join(data_dir, "emotion.pt"))
     # n = len(meta)
     # n_val = round(n * val_split)
     # n_train = n - n_val
@@ -88,7 +88,7 @@ def get_args():
 def main():
     args = get_args()
     torch.backends.cuda.benchmark = True
-    d_input = 260
+    d_input = 159
     d_output = 2
     model = UnimodalModel(d_input, args.d_hidden, d_output, args.n_layers).cuda()
     train_set, val_set = load_data(args.data_dir, args.val_split)
