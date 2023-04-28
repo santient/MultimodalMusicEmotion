@@ -10,9 +10,9 @@ import tqdm
 class UnimodalModel(nn.Module):
     def __init__(self, d_input, d_hidden, d_output, n_layers):
         super().__init__()
-        layers = [nn.Linear(d_input, d_hidden), nn.GELU()]
+        layers = [nn.Linear(d_input, d_hidden), nn.Dropout(p=0.2), nn.GELU()]
         for i in range(n_layers):
-            layers.extend([nn.Linear(d_hidden, d_hidden), nn.GELU()])
+            layers.extend([nn.Linear(d_hidden, d_hidden), nn.Dropout(p=0.2), nn.GELU()])
         layers.extend([nn.Linear(d_hidden, d_output), nn.Tanh()])
         self.layers = nn.Sequential(*layers)
 
@@ -76,7 +76,7 @@ def get_args():
     parser.add_argument("--data-dir", type=str, required=True)
     parser.add_argument("--out-dir", type=str, required=True)
     parser.add_argument("--d_hidden", type=int, default=256)
-    parser.add_argument("--n_layers", type=int, default=1)
+    parser.add_argument("--n_layers", type=int, default=2)
     parser.add_argument("--bs", type=int, default=32)
     parser.add_argument("--epochs", type=int, default=100)
     parser.add_argument("--lr", type=float, default=1e-3)
