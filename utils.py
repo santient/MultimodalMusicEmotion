@@ -204,6 +204,7 @@ def emotion_changes_smooth(av):
     out = []
     start = 0
     t = 0
+    av = 0.8 * av + 0.2 * av.mean(dim=0, keepdim=True)
     for a, v in av:
         t += 0.5
         arousal += a.item()
